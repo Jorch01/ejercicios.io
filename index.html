@@ -143,6 +143,62 @@
             font-weight: bold;
         }
 
+        .clause-box {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .clause-classification {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .clause-option {
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .clause-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .clause-option.valid {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .clause-option.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .clause-option.abusive {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .clause-option.selected {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
         .options {
             margin-top: 15px;
         }
@@ -280,12 +336,17 @@
             background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
         }
 
-        .btn-submit {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
             display: block;
             margin: 30px auto;
             padding: 15px 50px;
             font-size: 1.3em;
+        }
+
+        .btn-whatsapp:before {
+            content: "📱 ";
+            font-size: 1.2em;
         }
 
         .result {
@@ -542,6 +603,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .clause-classification {
+                grid-template-columns: 1fr;
+            }
+            
             .timer {
                 position: static;
                 margin: 20px auto;
@@ -679,15 +744,137 @@
             </div>
         </div>
 
-        <!-- SECCIÓN 2: CONTRATOS Y DOCUMENTOS -->
+        <!-- NUEVA SECCIÓN: IDENTIFICACIÓN DE CLÁUSULAS -->
         <div class="section">
-            <h2>📄 Sección 2: Contratos y Documentos Legales</h2>
+            <h2>⚖️ Sección 2: Identificación de Cláusulas Contractuales</h2>
             <p class="section-description">
-                Demuestra tu capacidad para identificar elementos esenciales y cláusulas problemáticas en contratos.
+                Una habilidad fundamental es poder identificar cláusulas problemáticas en contratos. Clasifica las siguientes cláusulas según sean: Válidas (Verde), Cuestionables (Amarillo) o Abusivas/Ilegales (Rojo).
             </p>
 
             <div class="exercise">
-                <h3><span class="exercise-number">4</span>Relaciona cada parte del contrato con su descripción:</h3>
+                <h3><span class="exercise-number">4</span>Contrato de Arrendamiento - Cláusula sobre Depósito</h3>
+                <div class="clause-box">
+                    "El arrendatario deberá entregar como depósito en garantía el equivalente a un mes de renta, mismo que será devuelto al término del contrato, previa revisión del estado del inmueble."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q4', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q4', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q4', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">5</span>Contrato de Arrendamiento - Cláusula sobre Renuncia de Derechos</h3>
+                <div class="clause-box">
+                    "El arrendatario renuncia expresamente a cualquier derecho de reclamación presente o futura contra el arrendador, sin importar la causa o naturaleza del reclamo."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q5', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q5', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q5', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result5"></div>
+            </div>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">6</span>Contrato de Trabajo - Cláusula sobre Horario</h3>
+                <div class="clause-box">
+                    "El trabajador laborará de lunes a viernes de 9:00 a 18:00 horas con una hora para alimentos. Las horas extras serán pagadas conforme a la Ley Federal del Trabajo."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q6', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q6', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q6', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result6"></div>
+            </div>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">7</span>Contrato de Compraventa - Cláusula sobre Garantía</h3>
+                <div class="clause-box">
+                    "El vendedor no otorga ningún tipo de garantía sobre el producto. El comprador acepta el bien en el estado en que se encuentra y renuncia a cualquier reclamación por vicios ocultos."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q7', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q7', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q7', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result7"></div>
+            </div>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">8</span>Contrato de Préstamo - Cláusula sobre Intereses</h3>
+                <div class="clause-box">
+                    "En caso de mora, el deudor pagará un interés moratorio del 10% mensual sobre el saldo insoluto, capitalizable mensualmente."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q8', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q8', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q8', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result8"></div>
+            </div>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">9</span>Contrato de Servicios - Cláusula sobre Cancelación</h3>
+                <div class="clause-box">
+                    "El cliente puede cancelar el servicio en cualquier momento con 30 días de anticipación. Si cancela antes del plazo mínimo de 6 meses, deberá pagar una penalización equivalente al 50% del valor restante del contrato."
+                </div>
+                <div class="clause-classification">
+                    <div class="clause-option valid" onclick="selectClause(this, 'q9', 'valid')">
+                        ✓ Válida
+                    </div>
+                    <div class="clause-option warning" onclick="selectClause(this, 'q9', 'warning')">
+                        ⚠ Cuestionable
+                    </div>
+                    <div class="clause-option abusive" onclick="selectClause(this, 'q9', 'abusive')">
+                        ✗ Abusiva
+                    </div>
+                </div>
+                <div class="result" id="result9"></div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: CONTRATOS Y DOCUMENTOS -->
+        <div class="section">
+            <h2>📄 Sección 3: Contratos y Documentos Legales</h2>
+            <p class="section-description">
+                Demuestra tu capacidad para identificar elementos esenciales en contratos y documentos legales.
+            </p>
+
+            <div class="exercise">
+                <h3><span class="exercise-number">10</span>Relaciona cada parte del contrato con su descripción:</h3>
                 <div class="matching-exercise">
                     <div class="matching-column">
                         <h4>Partes del Contrato</h4>
@@ -704,100 +891,73 @@
                         <div class="drop-zone" data-correct="incumplimiento">Especifica qué pasa si alguien no cumple</div>
                     </div>
                 </div>
-                <div class="result" id="result4"></div>
-            </div>
-
-            <div class="exercise">
-                <h3><span class="exercise-number">5</span>¿Cuáles de las siguientes son cláusulas abusivas o ilegales en un contrato de arrendamiento?</h3>
-                <div class="options">
-                    <label class="option">
-                        <input type="checkbox" name="q5" value="a">
-                        a) "El arrendatario renuncia a cualquier reclamación futura contra el arrendador"
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="q5" value="b">
-                        b) "La renta se incrementará 5% anual"
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="q5" value="c">
-                        c) "El arrendador puede entrar al inmueble cuando guste sin avisar"
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="q5" value="d">
-                        d) "Se requiere un depósito equivalente a un mes de renta"
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="q5" value="e">
-                        e) "En caso de desocupar antes del plazo, pierde el depósito más 3 meses de renta"
-                    </label>
-                </div>
-                <div class="result" id="result5"></div>
+                <div class="result" id="result10"></div>
             </div>
         </div>
 
-        <!-- SECCIÓN 3: DERECHOS LABORALES -->
+        <!-- SECCIÓN 4: DERECHOS LABORALES -->
         <div class="section">
-            <h2>💼 Sección 3: Derechos Laborales</h2>
+            <h2>💼 Sección 4: Derechos Laborales</h2>
             <p class="section-description">
                 Evalúa tu conocimiento sobre derechos laborales básicos y cálculo de finiquitos.
             </p>
 
             <div class="exercise">
-                <h3><span class="exercise-number">6</span>Caso Práctico: Juan trabajó 2 años con un salario de $8,000 mensuales y fue despedido sin causa justificada. ¿Cuál es el monto aproximado de su indemnización constitucional (3 meses de salario)?</h3>
+                <h3><span class="exercise-number">11</span>Caso Práctico: Juan trabajó 2 años con un salario de $8,000 mensuales y fue despedido sin causa justificada. ¿Cuál es el monto aproximado de su indemnización constitucional (3 meses de salario)?</h3>
                 <div class="options">
                     <label class="option">
-                        <input type="radio" name="q6" value="a">
+                        <input type="radio" name="q11" value="a">
                         a) $8,000
                     </label>
                     <label class="option">
-                        <input type="radio" name="q6" value="b">
+                        <input type="radio" name="q11" value="b">
                         b) $16,000
                     </label>
                     <label class="option">
-                        <input type="radio" name="q6" value="c">
+                        <input type="radio" name="q11" value="c">
                         c) $24,000
                     </label>
                     <label class="option">
-                        <input type="radio" name="q6" value="d">
+                        <input type="radio" name="q11" value="d">
                         d) $32,000
                     </label>
                 </div>
-                <div class="result" id="result6"></div>
+                <div class="result" id="result11"></div>
             </div>
 
             <div class="exercise">
-                <h3><span class="exercise-number">7</span>¿Cuánto tiempo tiene un trabajador para demandar por despido injustificado?</h3>
+                <h3><span class="exercise-number">12</span>¿Cuánto tiempo tiene un trabajador para demandar por despido injustificado?</h3>
                 <div class="options">
                     <label class="option">
-                        <input type="radio" name="q7" value="a">
+                        <input type="radio" name="q12" value="a">
                         a) 30 días
                     </label>
                     <label class="option">
-                        <input type="radio" name="q7" value="b">
+                        <input type="radio" name="q12" value="b">
                         b) 6 meses
                     </label>
                     <label class="option">
-                        <input type="radio" name="q7" value="c">
+                        <input type="radio" name="q12" value="c">
                         c) 1 año
                     </label>
                     <label class="option">
-                        <input type="radio" name="q7" value="d">
+                        <input type="radio" name="q12" value="d">
                         d) 2 años
                     </label>
                 </div>
-                <div class="result" id="result7"></div>
+                <div class="result" id="result12"></div>
             </div>
         </div>
 
-        <!-- SECCIÓN 4: INSTITUCIONES DE APOYO -->
+        <!-- SECCIÓN 5: INSTITUCIONES DE APOYO -->
         <div class="section">
-            <h2>🏛️ Sección 4: Instituciones de Apoyo al Ciudadano</h2>
+            <h2>🏛️ Sección 5: Instituciones de Apoyo al Ciudadano</h2>
             <p class="section-description">
                 Identifica a qué institución acudir según el tipo de problema legal.
             </p>
 
             <div class="exercise">
-                <h3><span class="exercise-number">8</span>Relaciona cada problema con la institución correspondiente:</h3>
+                <h3><span class="exercise-number">13</span>Relaciona cada problema con la institución correspondiente:</h3>
                 <div class="matching-exercise">
                     <div class="matching-column">
                         <h4>Problemas</h4>
@@ -814,69 +974,69 @@
                         <div class="drop-zone" data-correct="conapred">CONAPRED</div>
                     </div>
                 </div>
-                <div class="result" id="result8"></div>
+                <div class="result" id="result13"></div>
             </div>
         </div>
 
-        <!-- SECCIÓN 5: PREVENCIÓN DE FRAUDES -->
+        <!-- SECCIÓN 6: PREVENCIÓN DE FRAUDES -->
         <div class="section">
-            <h2>🛡️ Sección 5: Prevención de Fraudes</h2>
+            <h2>🛡️ Sección 6: Prevención de Fraudes</h2>
             <p class="section-description">
                 Demuestra tu capacidad para identificar señales de alerta en situaciones potencialmente fraudulentas.
             </p>
 
             <div class="exercise">
-                <h3><span class="exercise-number">9</span>¿Cuáles son señales de alerta de un posible fraude? (Selecciona todas las correctas)</h3>
+                <h3><span class="exercise-number">14</span>¿Cuáles son señales de alerta de un posible fraude? (Selecciona todas las correctas)</h3>
                 <div class="options">
                     <label class="option">
-                        <input type="checkbox" name="q9" value="a">
+                        <input type="checkbox" name="q14" value="a">
                         a) Te presionan para tomar una decisión inmediata
                     </label>
                     <label class="option">
-                        <input type="checkbox" name="q9" value="b">
+                        <input type="checkbox" name="q14" value="b">
                         b) Piden todos los documentos por escrito
                     </label>
                     <label class="option">
-                        <input type="checkbox" name="q9" value="c">
+                        <input type="checkbox" name="q14" value="c">
                         c) Prometen ganancias garantizadas sin riesgo
                     </label>
                     <label class="option">
-                        <input type="checkbox" name="q9" value="d">
+                        <input type="checkbox" name="q14" value="d">
                         d) Tienen oficinas físicas verificables
                     </label>
                     <label class="option">
-                        <input type="checkbox" name="q9" value="e">
+                        <input type="checkbox" name="q14" value="e">
                         e) Piden dinero por adelantado para "trámites"
                     </label>
                     <label class="option">
-                        <input type="checkbox" name="q9" value="f">
+                        <input type="checkbox" name="q14" value="f">
                         f) Evitan darte recibos o contratos
                     </label>
                 </div>
-                <div class="result" id="result9"></div>
+                <div class="result" id="result14"></div>
             </div>
 
             <div class="exercise">
-                <h3><span class="exercise-number">10</span>Si recibes una llamada diciendo que secuestraron a un familiar, ¿cuál es la acción correcta?</h3>
+                <h3><span class="exercise-number">15</span>Si recibes una llamada diciendo que secuestraron a un familiar, ¿cuál es la acción correcta?</h3>
                 <div class="options">
                     <label class="option">
-                        <input type="radio" name="q10" value="a">
+                        <input type="radio" name="q15" value="a">
                         a) Depositar inmediatamente el dinero que piden
                     </label>
                     <label class="option">
-                        <input type="radio" name="q10" value="b">
+                        <input type="radio" name="q15" value="b">
                         b) Colgar y llamar directamente a tu familiar para verificar
                     </label>
                     <label class="option">
-                        <input type="radio" name="q10" value="c">
+                        <input type="radio" name="q15" value="c">
                         c) Dar toda la información que soliciten
                     </label>
                     <label class="option">
-                        <input type="radio" name="q10" value="d">
+                        <input type="radio" name="q15" value="d">
                         d) Negociar el monto del rescate
                     </label>
                 </div>
-                <div class="result" id="result10"></div>
+                <div class="result" id="result15"></div>
             </div>
         </div>
 
@@ -954,6 +1114,7 @@
                     <option value="">Selecciona una opción...</option>
                     <option value="fundamentos">Fundamentos del Derecho y Sistema Jurídico</option>
                     <option value="contratos">Cómo leer y entender contratos</option>
+                    <option value="clausulas">Identificación de cláusulas abusivas</option>
                     <option value="laborales">Derechos laborales y cálculo de finiquitos</option>
                     <option value="instituciones">Instituciones de apoyo al ciudadano</option>
                     <option value="fraudes">Prevención de fraudes y estafas</option>
@@ -1121,13 +1282,13 @@
             </div>
         </div>
 
-        <button class="btn btn-submit" onclick="submitForm()">
-            📧 ENVIAR RESULTADOS Y EVALUACIÓN
+        <button class="btn btn-whatsapp" onclick="submitForm()">
+            ENVIAR RESULTADOS POR WHATSAPP
         </button>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p>Enviando resultados...</p>
+            <p>Preparando resultados para WhatsApp...</p>
         </div>
     </div>
 
@@ -1135,10 +1296,10 @@
     <div class="modal" id="confirmModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2>✅ Resultados Enviados</h2>
-            <p>Tus resultados y evaluación han sido enviados exitosamente al Mtro. Jorge Israel Clemente Marié.</p>
-            <p>Recibirás una copia en tu correo electrónico.</p>
-            <button class="btn" onclick="closeModal()">Cerrar</button>
+            <h2>✅ Resultados Listos</h2>
+            <p>Se abrirá WhatsApp con tus resultados listos para enviar al Mtro. Jorge Israel Clemente Marié.</p>
+            <p>Solo debes presionar el botón de enviar en WhatsApp.</p>
+            <button class="btn" onclick="closeModal()">Entendido</button>
         </div>
     </div>
 
@@ -1147,7 +1308,7 @@
         let startTime = Date.now();
         let answers = {};
         let score = 0;
-        let totalQuestions = 10;
+        let totalQuestions = 15;
 
         // Timer
         setInterval(() => {
@@ -1163,14 +1324,67 @@
             q1: 'b',
             q2: 'b',
             q3: ['a', 'c', 'e'],
-            q4: 'matching',
-            q5: ['a', 'c', 'e'],
-            q6: 'c',
-            q7: 'c',
-            q8: 'matching',
-            q9: ['a', 'c', 'e', 'f'],
-            q10: 'b'
+            q4: 'valid',     // Depósito de un mes es válido
+            q5: 'abusive',   // Renuncia total de derechos es abusiva
+            q6: 'valid',     // Horario normal con horas extras según ley es válido
+            q7: 'abusive',   // No dar ninguna garantía en compraventa es abusivo
+            q8: 'abusive',   // 10% mensual es usura
+            q9: 'warning',   // Penalización del 50% es cuestionable
+            q10: 'matching',
+            q11: 'c',
+            q12: 'c',
+            q13: 'matching',
+            q14: ['a', 'c', 'e', 'f'],
+            q15: 'b'
         };
+
+        // Función para seleccionar cláusulas
+        function selectClause(element, questionId, classification) {
+            // Limpiar selección anterior
+            const parent = element.parentElement;
+            parent.querySelectorAll('.clause-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Marcar como seleccionada
+            element.classList.add('selected');
+            
+            // Verificar respuesta
+            const resultDiv = element.closest('.exercise').querySelector('.result');
+            const isCorrect = classification === correctAnswers[questionId];
+            
+            if (isCorrect) {
+                resultDiv.className = 'result success';
+                resultDiv.textContent = '✅ ¡Correcto! Has identificado correctamente esta cláusula.';
+                answers[questionId] = { correct: true, value: classification };
+            } else {
+                resultDiv.className = 'result error';
+                let explanation = '';
+                switch(questionId) {
+                    case 'q4':
+                        explanation = 'Un depósito de un mes es legal y común en contratos de arrendamiento.';
+                        break;
+                    case 'q5':
+                        explanation = 'Esta cláusula es abusiva porque nadie puede renunciar anticipadamente a todos sus derechos.';
+                        break;
+                    case 'q6':
+                        explanation = 'Este horario respeta la jornada legal y menciona el pago de horas extras conforme a la ley.';
+                        break;
+                    case 'q7':
+                        explanation = 'El vendedor no puede eximir completamente su responsabilidad por vicios ocultos en bienes de consumo.';
+                        break;
+                    case 'q8':
+                        explanation = '10% mensual (120% anual) es considerado usura. El límite legal es mucho menor.';
+                        break;
+                    case 'q9':
+                        explanation = 'Una penalización del 50% puede ser excesiva y cuestionable, aunque no necesariamente ilegal.';
+                        break;
+                }
+                resultDiv.textContent = `❌ Incorrecto. ${explanation}`;
+                answers[questionId] = { correct: false, value: classification };
+            }
+            resultDiv.style.display = 'block';
+        }
 
         // Auto-calificación para preguntas de opción múltiple
         document.querySelectorAll('input[type="radio"]').forEach(input => {
@@ -1202,7 +1416,7 @@
         });
 
         // Auto-calificación para checkboxes
-        ['q3', 'q5', 'q9'].forEach(questionName => {
+        ['q3', 'q14'].forEach(questionName => {
             const checkboxes = document.querySelectorAll(`input[name="${questionName}"]`);
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
@@ -1313,7 +1527,7 @@
                 if (allCorrect) {
                     resultDiv.className = 'result success';
                     resultDiv.textContent = '✅ ¡Excelente! Todas las relaciones son correctas.';
-                    const questionId = exerciseDiv.querySelector('h3').textContent.includes('4') ? 'q4' : 'q8';
+                    const questionId = exerciseDiv.querySelector('h3').textContent.includes('10') ? 'q10' : 'q13';
                     answers[questionId] = { correct: true };
                 } else {
                     resultDiv.className = 'result error';
@@ -1362,6 +1576,59 @@
             
             // Scroll suave hacia la calificación
             scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Función para formatear texto para WhatsApp
+        function formatForWhatsApp(data) {
+            let message = `*🎓 RESULTADOS DEL CURSO: DERECHO PARA NO ABOGADOS*\n`;
+            message += `*Mtro. Jorge Israel Clemente Marié*\n\n`;
+            
+            message += `*📝 INFORMACIÓN DEL ALUMNO*\n`;
+            message += `▪️ Nombre: ${data.studentInfo.name}\n`;
+            message += `▪️ Correo: ${data.studentInfo.email}\n`;
+            message += `▪️ Fecha: ${data.studentInfo.date}\n`;
+            message += `▪️ Tiempo en plataforma: ${data.studentInfo.timeSpent}\n\n`;
+            
+            message += `*📊 CALIFICACIÓN DE EJERCICIOS*\n`;
+            message += `▪️ Puntaje: *${data.exerciseScore.percentage}%*\n`;
+            message += `▪️ Correctas: ${data.exerciseScore.correct} de ${data.exerciseScore.total}\n\n`;
+            
+            message += `*🎯 AUTOEVALUACIÓN*\n`;
+            message += `▪️ Preparación legal: ${getScaleText(data.selfAssessment.preparedness)}\n`;
+            message += `▪️ Utilidad: ${getScaleText(data.selfAssessment.usefulness)}\n`;
+            message += `▪️ Tema más valioso: ${data.selfAssessment.mostValuable || 'No especificado'}\n`;
+            message += `▪️ Acción a tomar: ${data.selfAssessment.concreteAction || 'No especificado'}\n`;
+            message += `▪️ Temas para profundizar: ${data.selfAssessment.deepenTopic || 'No especificado'}\n\n`;
+            
+            message += `*⭐ EVALUACIÓN DEL CURSO*\n`;
+            message += `▪️ Contenido: ${getScaleText(data.courseEvaluation.contentQuality)}\n`;
+            message += `▪️ Claridad docente: ${getScaleText(data.courseEvaluation.teacherClarity)}\n`;
+            message += `▪️ Dominio del tema: ${getScaleText(data.courseEvaluation.teacherKnowledge)}\n`;
+            message += `▪️ Ejercicios: ${getScaleText(data.courseEvaluation.exercisesUtility)}\n`;
+            message += `▪️ Recomendaría: ${getScaleText(data.courseEvaluation.wouldRecommend)}\n\n`;
+            
+            if (data.courseEvaluation.improvements && data.courseEvaluation.improvements !== 'Sin comentarios') {
+                message += `*💡 Sugerencias:*\n${data.courseEvaluation.improvements}\n\n`;
+            }
+            
+            if (data.courseEvaluation.additionalComments && data.courseEvaluation.additionalComments !== 'Sin comentarios') {
+                message += `*💬 Comentarios:*\n${data.courseEvaluation.additionalComments}\n\n`;
+            }
+            
+            message += `_Enviado desde Plataforma Empírica Legal Lab_`;
+            
+            return message;
+        }
+
+        function getScaleText(value) {
+            const scales = {
+                '1': '1/5 - Muy bajo',
+                '2': '2/5 - Bajo',
+                '3': '3/5 - Medio',
+                '4': '4/5 - Alto',
+                '5': '5/5 - Muy alto'
+            };
+            return scales[value] || 'No respondido';
         }
 
         // Enviar formulario
@@ -1419,76 +1686,27 @@
             // Mostrar loading
             document.getElementById('loading').classList.add('active');
 
-            // Crear el cuerpo del email
-            const emailBody = formatEmailBody(evaluationData);
+            // Crear el mensaje para WhatsApp
+            const whatsappMessage = formatForWhatsApp(evaluationData);
 
-            // Aquí configurarías el envío real del email
-            // Por ahora simularemos el envío
+            // Guardar en localStorage como backup
+            localStorage.setItem('courseResults_' + Date.now(), JSON.stringify(evaluationData));
+
+            // Simular procesamiento
             setTimeout(() => {
                 document.getElementById('loading').classList.remove('active');
                 
-                // Intentar enviar por correo usando mailto (limitado pero funcional)
-                const mailtoLink = `mailto:jorge_clemente@empirica.mx?subject=Resultados del Curso - ${studentName}&body=${encodeURIComponent(emailBody)}`;
-                window.open(mailtoLink);
+                // Crear link de WhatsApp
+                const phoneNumber = '529982570828'; // Número sin el +
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                
+                // Abrir WhatsApp
+                window.open(whatsappUrl, '_blank');
                 
                 // Mostrar modal de confirmación
                 document.getElementById('confirmModal').style.display = 'block';
-                
-                // También podrías guardar en localStorage para recuperar después
-                localStorage.setItem('courseResults_' + Date.now(), JSON.stringify(evaluationData));
             }, 2000);
-        }
-
-        function formatEmailBody(data) {
-            return `
-RESULTADOS DEL CURSO: DERECHO PARA NO ABOGADOS
-================================================
-
-INFORMACIÓN DEL ALUMNO
-----------------------
-Nombre: ${data.studentInfo.name}
-Correo: ${data.studentInfo.email}
-Fecha: ${data.studentInfo.date}
-Tiempo en la plataforma: ${data.studentInfo.timeSpent}
-
-CALIFICACIÓN DE EJERCICIOS
---------------------------
-Puntaje: ${data.exerciseScore.percentage}%
-Respuestas correctas: ${data.exerciseScore.correct} de ${data.exerciseScore.total}
-
-AUTOEVALUACIÓN DEL APRENDIZAJE
--------------------------------
-Preparación para identificar situaciones legales: ${getScaleText(data.selfAssessment.preparedness)}
-Utilidad del conocimiento: ${getScaleText(data.selfAssessment.usefulness)}
-Tema más valioso: ${data.selfAssessment.mostValuable}
-Acción concreta a tomar: ${data.selfAssessment.concreteAction}
-Temas para profundizar: ${data.selfAssessment.deepenTopic}
-
-EVALUACIÓN DEL CURSO Y DOCENTE
--------------------------------
-Calidad del contenido: ${getScaleText(data.courseEvaluation.contentQuality)}
-Claridad del docente: ${getScaleText(data.courseEvaluation.teacherClarity)}
-Dominio del tema: ${getScaleText(data.courseEvaluation.teacherKnowledge)}
-Utilidad de ejercicios: ${getScaleText(data.courseEvaluation.exercisesUtility)}
-Recomendaría el curso: ${getScaleText(data.courseEvaluation.wouldRecommend)}
-
-Sugerencias de mejora: ${data.courseEvaluation.improvements}
-Comentarios adicionales: ${data.courseEvaluation.additionalComments}
-
-================================================
-Enviado desde la Plataforma de Ejercicios - Empírica Legal Lab
-            `;
-        }
-
-        function getScaleText(value) {
-            const scales = {
-                '1': 'Muy bajo/Deficiente',
-                '2': 'Bajo/Regular',
-                '3': 'Medio/Aceptable',
-                '4': 'Alto/Bueno',
-                '5': 'Muy alto/Excelente'
-            };
-            return scales[value] || 'No respondido';
         }
 
         function closeModal() {
