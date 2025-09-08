@@ -649,6 +649,7 @@
         <div class="header">
             <h1>📚 Derecho para No Abogados</h1>
             <p>Plataforma de Ejercicios y Evaluación</p>
+            <p style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">13 ejercicios para evaluar tu aprendizaje</p>
         </div>
 
         <div class="student-info">
@@ -1458,52 +1459,157 @@
             resultDiv.style.display = 'block';
         }
 
-        // Drag and Drop functionality
-        let draggedElement = null;
+        // Sistema de relacionar mejorado para móviles y desktop
+        let selectedItem = null;
+        let selectedItemOriginalParent = null;
 
-        document.querySelectorAll('.matching-item').forEach(item => {
-            item.addEventListener('dragstart', function(e) {
-                draggedElement = this;
-                this.classList.add('dragging');
-            });
-
-            item.addEventListener('dragend', function(e) {
-                this.classList.remove('dragging');
-            });
-        });
-
-        document.querySelectorAll('.drop-zone').forEach(zone => {
-            zone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.classList.add('drag-over');
-            });
-
-            zone.addEventListener('dragleave', function(e) {
-                this.classList.remove('drag-over');
-            });
-
-            zone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.classList.remove('drag-over');
+        // Inicializar ejercicios de relacionar
+        function initMatchingExercises() {
+            // Para cada ejercicio de relacionar
+            document.querySelectorAll('.matching-exercise').forEach(exercise => {
+                const items = exercise.querySelectorAll('.matching-item');
+                const dropZones = exercise.querySelectorAll('.drop-zone');
                 
-                if (draggedElement) {
-                    // Verificar si ya hay un elemento
-                    const existingItem = this.querySelector('.matching-item');
-                    if (existingItem) {
-                        // Devolver el elemento existente a la columna original
-                        document.querySelector('.matching-column').appendChild(existingItem);
-                    }
+                // Configurar items para click/tap
+                items.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleItemSelection(this, exercise);
+                    });
                     
-                    this.appendChild(draggedElement);
-                    checkMatching(this.closest('.exercise'));
-                    draggedElement = null;
-                }
+                    item.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        handleItemSelection(this, exercise);
+                    });
+                });
+                
+                // Configurar drop zones para click/tap
+                dropZones.forEach(zone => {
+                    zone.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleZoneSelection(this, exercise);
+                    });
+                    
+                    zone.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        handleZoneSelection(this, exercise);
+                    });
+                });
             });
-        });
+        }
 
-        function checkMatching(exerciseDiv) {
-            const dropZones = exerciseDiv.querySelectorAll('.drop-zone');
-            const resultDiv = exerciseDiv.querySelector('.result');
+        function handleItemSelection(item, exercise) {
+            // Si ya hay un item seleccionado en este ejercicio, deseleccionarlo
+            exercise.querySelectorAll('.matching-item.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            exercise.querySelectorAll('.drop-zone.waiting').forEach(el => {
+                el.classList.remove('waiting');
+            });
+            
+            // Seleccionar el nuevo item
+            item.classList.add('selected');
+            selectedItem = item;
+            selectedItemOriginalParent = item.parentElement;
+            
+            // Marcar las zonas de drop como esperando
+            exercise.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('waiting');
+            });
+        }
+
+        function handleZoneSelection(zone, exercise) {
+            if (!selectedItem || !exercise.contains(selectedItem)) {
+                return;
+            }
+            
+            // Si la zona ya tiene un item, devolverlo a su lugar original
+            const existingItem = zone.querySelector('.matching-item');
+            if (existingItem && existingItem !== selectedItem) {
+                const leftColumn = exercise.querySelector('.matching-column');
+                leftColumn.appendChild(existingItem);
+            }
+            
+            // Mover el item seleccionado a la zona
+            zone.appendChild(selectedItem);
+            
+            // Limpiar selección y estados
+            selectedItem.classList.remove('selected');
+            exercise.querySelectorAll('.drop-zone.waiting').forEach(el => {
+                el.classList.remove('waiting');
+            });
+            
+            selectedItem = null;
+            selectedItemOriginalParent = null;
+            
+            // Verificar si todas las respuestas están completas
+            checkMatching(exercise);
+        }
+
+        // También mantener compatibilidad con drag and drop para desktop
+        function initDragAndDrop() {
+            if (!('ontouchstart' in window)) {
+                // Solo inicializar drag and drop si no es un dispositivo táctil
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    item.draggable = true;
+                    
+                    item.addEventListener('dragstart', function(e) {
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/html', this.innerHTML);
+                        selectedItem = this;
+                        this.classList.add('dragging');
+                    });
+
+                    item.addEventListener('dragend', function(e) {
+                        this.classList.remove('dragging');
+                        selectedItem = null;
+                    });
+                });
+
+                document.querySelectorAll('.drop-zone').forEach(zone => {
+                    zone.addEventListener('dragover', function(e) {
+                        if (e.preventDefault) {
+                            e.preventDefault();
+                        }
+                        e.dataTransfer.dropEffect = 'move';
+                        this.classList.add('drag-over');
+                        return false;
+                    });
+
+                    zone.addEventListener('dragleave', function(e) {
+                        this.classList.remove('drag-over');
+                    });
+
+                    zone.addEventListener('drop', function(e) {
+                        if (e.stopPropagation) {
+                            e.stopPropagation();
+                        }
+                        e.preventDefault();
+                        this.classList.remove('drag-over');
+                        
+                        if (selectedItem) {
+                            // Verificar si ya hay un elemento
+                            const existingItem = this.querySelector('.matching-item');
+                            if (existingItem && existingItem !== selectedItem) {
+                                // Devolver el elemento existente a la columna original
+                                const leftColumn = this.closest('.matching-exercise').querySelector('.matching-column');
+                                leftColumn.appendChild(existingItem);
+                            }
+                            
+                            this.appendChild(selectedItem);
+                            checkMatching(this.closest('.matching-exercise'));
+                        }
+                        
+                        return false;
+                    });
+                });
+            }
+        }
+
+        function checkMatching(exerciseContainer) {
+            const exercise = exerciseContainer.closest('.exercise');
+            const dropZones = exercise.querySelectorAll('.drop-zone');
+            const resultDiv = exercise.querySelector('.result');
             let allCorrect = true;
             let allFilled = true;
 
@@ -1527,15 +1633,25 @@
                 if (allCorrect) {
                     resultDiv.className = 'result success';
                     resultDiv.textContent = '✅ ¡Excelente! Todas las relaciones son correctas.';
-                    const questionId = exerciseDiv.querySelector('h3').textContent.includes('10') ? 'q10' : 'q13';
+                    const questionId = exercise.querySelector('h3').textContent.includes('10') ? 'q10' : 'q13';
                     answers[questionId] = { correct: true };
                 } else {
                     resultDiv.className = 'result error';
                     resultDiv.textContent = '❌ Algunas relaciones son incorrectas. Intenta de nuevo.';
+                    const questionId = exercise.querySelector('h3').textContent.includes('10') ? 'q10' : 'q13';
+                    answers[questionId] = { correct: false };
                 }
                 resultDiv.style.display = 'block';
+            } else {
+                resultDiv.style.display = 'none';
             }
         }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            initMatchingExercises();
+            initDragAndDrop();
+        });
 
         // Calcular puntaje final
         function calculateScore() {
